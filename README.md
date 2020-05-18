@@ -1,2 +1,2 @@
-# blockchain
-Development regarding BlockChain
+# BitCoin Mining
+An example of a BitCoin Miner

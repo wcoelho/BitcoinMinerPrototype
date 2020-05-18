@@ -1,0 +1,52 @@
+script(src="/javascripts/script.js")
+style.
+    body {
+      font-family: verdana;
+    }
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    input[type=submit] {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+    div[id='div1'] {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      width: 150px;
+    }
+    div[id='div2'] {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      width: 530px;
+    }
+extends layout
+block content
+  h3 Escolha o hash a ser aplicado
+  div(id='div2')
+    div(id='div1')
+        form(action='/' method="post")
+          span Hash:
+          select(name='dropDown', id='')
+              each val in ['sha256', 'ripemd160']
+                  option= val
+          input(type='submit', value='Enviar', onclick="onClick()")
+    span Resultado:
+    textarea(name="result", id="result", cols="70", rows="10", value="result", readonly=true)
