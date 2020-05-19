@@ -7,9 +7,9 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-router.post("/" , function(request, response){  
-  let result = main.input(request.body.dropDown);
-  response.render('index', { result: result});
+router.post("/" , function(req, res){  
+  let result = main.input(req.body.dropDown);
+  res.render('index', { result: result});
 })
 
 module.exports = router;

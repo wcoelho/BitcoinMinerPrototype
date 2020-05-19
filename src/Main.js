@@ -3,12 +3,15 @@ const TransactionGenerator = require('./TransactionGenerator');
 const Block = require('./Block');
 const converters = require('./Util/converters');
 
-let block_chain = new BlockChain();    
-let transaction_generator = new TransactionGenerator();   
+let block_chain;    
+let transaction_generator = new TransactionGenerator();  
+let result=''; 
 
 module.exports = 
 {
     input: (hashTypeToBeApplyed) => {
+        block_chain = new BlockChain();
+        result='';
         this.hashType = hashTypeToBeApplyed;
         let last_block_header = '0e0fb2e3ae9bd2a0fa8b6999bfe6ab7df197a494d4a02885783a697ac74940d9';
         let last_block_target = this.hashType==='sha256' ? '0'.repeat(3) + 'd'.repeat(61) : '0'.repeat(3) + 'd'.repeat(37);
@@ -16,6 +19,7 @@ module.exports =
         //Preenche um bloco com transações. Temos 1500 transações pendentes.
         //Mas 500 transações terão que esperar pelo próximo bloco!
         execute(last_block_header, last_block_target, 1500, this.hashType);
+        result+=addMessage(0)
 
         //Dificuldade é atualizada a cada 2016 blocos
         //Objetivo é ter um bloco gerado a cada 10 minutos.
@@ -23,29 +27,28 @@ module.exports =
         //então a dificuldade é multiplicada por 2.
         
         execute(null, last_block_target, 1232, this.hashType);
+        result+=addMessage(1)
 
         //Para aumentar mais a dificuldade,
         //teremos agora 4 zeros no início ao invés de 3.
         last_block_target = '0' + last_block_target.substring(0,last_block_target.length -1);
         execute(null, last_block_target, 1876, this.hashType);
+        result+=addMessage(2)
 
         console.log('')
         console.log('Resumo')
-        console.log('')
-        let counter=0;
-        let result = '';
+        console.log('')    
 
-        block_chain.block_chain.forEach( b => {
-            result+=`\rBloco #${counter} foi adicionado. Foram ${b.nounce} passos para encontrá-lo`;
-            result+='\rA dificuldade foi aumentada para o próximo bloco!';
-            counter++;
-        })
+        console.log(result);
 
-        return result;
-        
+        return result;        
     }
 }
 
+function addMessage(index)
+{
+    return `Bloco ${block_chain.block_chain[index].hash_prev_block} foi adicionado.\nForam ${block_chain.block_chain[index].nounce} passos para minerá-lo\n\n`;
+}
 
 async function execute(last_block_header, last_block_target, length, hashType)
 {
