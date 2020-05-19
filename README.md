@@ -1,4 +1,4 @@
-# BitCoin Mining
+# BitCoin Miner Prototype
 An example of a BitCoin Miner in NodeJS.
 
 **Reference:**
